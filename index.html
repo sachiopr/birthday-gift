@@ -6,60 +6,44 @@
 <title>Happiest Birthday Mahima! ❤️</title>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Indie+Flower&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 <style>
-    /* --- 1. DYNAMIC RED BACKGROUND --- */
+    /* --- 1. DYNAMIC DARKER RED BACKGROUND --- */
     body {
-        margin: 0;
-        height: 100vh;
-        overflow: hidden;
-        background: linear-gradient(-45deg, #d32f2f, #ff6b6b, #ff8e8e, #b71c1c);
-        background-size: 400% 400%;
-        animation: gradientBG 12s ease infinite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: 'Indie Flower', cursive;
-        position: relative;
+        margin: 0; height: 100vh; overflow: hidden;
+        /* UPDATED: Deep, dark red shades */
+        background: linear-gradient(-45deg, #4a0000, #8e0000, #c62828, #720026, #a00000);
+        background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+        display: flex; justify-content: center; align-items: center;
+        font-family: 'Indie Flower', cursive; position: relative;
     }
-
     @keyframes gradientBG {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
     }
-
-    /* Floating Background Hearts */
     #bg-hearts { position: absolute; width: 100%; height: 100%; pointer-events: none; }
     .bg-heart {
-        position: absolute; color: rgba(255, 255, 255, 0.2);
+        position: absolute; color: rgba(255, 255, 255, 0.15); /* Slightly more subtle */
         animation: floatUp linear infinite; z-index: 0;
     }
-
     @keyframes floatUp {
         0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-        50% { opacity: 1; }
         100% { transform: translateY(-10vh) scale(1.2) rotate(20deg); opacity: 0; }
     }
 
-    /* --- 2. ENVELOPE STYLES --- */
-    .envelope-wrapper {
-        position: relative; cursor: pointer;
-        transition: transform 0.3s; z-index: 10;
-    }
+    /* --- 2. ENVELOPE --- */
+    .envelope-wrapper { position: relative; cursor: pointer; transition: transform 0.3s; z-index: 10; }
     .envelope-wrapper:hover { transform: scale(1.02); }
-
+    /* Updated Envelope color to match darker theme */
     .envelope {
-        width: 320px; height: 220px;
-        background: #c62828;
+        width: 320px; height: 220px; background: #8e0000;
         position: relative; border-radius: 5px;
-        box-shadow: 0 0 40px rgba(255, 255, 255, 0.4); 
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
     }
-
     .flap { position: absolute; width: 0; height: 0; border-style: solid; }
-    .flap.left { border-width: 110px 0 110px 160px; border-color: transparent transparent transparent #b71c1c; top: 0; left: 0; z-index: 3; }
-    .flap.right { border-width: 110px 160px 110px 0; border-color: transparent #b71c1c transparent transparent; top: 0; right: 0; z-index: 3; }
-    .flap.bottom { border-width: 0 160px 120px 160px; border-color: transparent transparent #d32f2f transparent; bottom: 0; left: 0; z-index: 4; }
-    .flap.top { border-width: 130px 160px 0 160px; border-color: #e53935 transparent transparent transparent; top: 0; left: 0; z-index: 5; transform-origin: top; transition: transform 0.6s ease-in-out, z-index 0.6s; }
-
+    .flap.left { border-width: 110px 0 110px 160px; border-color: transparent transparent transparent #720026; top: 0; left: 0; z-index: 3; }
+    .flap.right { border-width: 110px 160px 110px 0; border-color: transparent #720026 transparent transparent; top: 0; right: 0; z-index: 3; }
+    .flap.bottom { border-width: 0 160px 120px 160px; border-color: transparent transparent #8e0000 transparent; bottom: 0; left: 0; z-index: 4; }
+    .flap.top { border-width: 130px 160px 0 160px; border-color: #a00000 transparent transparent transparent; top: 0; left: 0; z-index: 5; transform-origin: top; transition: transform 0.6s ease-in-out, z-index 0.6s; }
     .wax-seal {
         position: absolute; width: 50px; height: 50px;
         background: radial-gradient(circle, #ffd700, #b8860b);
@@ -68,15 +52,12 @@
         display: flex; align-items: center; justify-content: center;
         font-size: 24px; color: #966907; transition: opacity 0.4s;
     }
-
     .envelope-message {
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
         color: white; font-family: 'Dancing Script', cursive; font-size: 1.5rem;
-        z-index: 6; text-shadow: 0 2px 2px rgba(0,0,0,0.2); pointer-events: none;
+        z-index: 6; text-shadow: 0 2px 2px rgba(0,0,0,0.5); pointer-events: none;
         width: 100%; text-align: center;
     }
-
-    /* The Opening Card inside Envelope */
     .opening-card {
         position: absolute; width: 280px; height: 180px;
         background: #fff; top: 20px; left: 20px; z-index: 2;
@@ -84,67 +65,50 @@
         transition: transform 0.8s ease-in-out;
         display: flex; flex-direction: column; justify-content: center; align-items: center;
     }
-
     .envelope-wrapper.open .flap.top { transform: rotateX(180deg); z-index: 1; }
     .envelope-wrapper.open .wax-seal, .envelope-wrapper.open .envelope-message { opacity: 0; }
     .envelope-wrapper.open .opening-card { transform: translateY(-200px); z-index: 15; }
     .hidden { display: none !important; }
 
-    /* --- 3. GALLERY CONTAINER --- */
+    /* --- 3. GALLERY --- */
     .gallery-container {
         display: none; width: 90%; max-width: 450px;
         background: rgba(255, 255, 255, 0.95);
         padding: 25px; border-radius: 15px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        text-align: center; border: 3px dashed #ff8a80; 
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        text-align: center; border: 3px dashed #8e0000;
         position: relative; z-index: 20;
     }
-
     .slide { display: none; animation: popIn 0.8s ease; }
     .slide.active { display: block; }
     @keyframes popIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
 
-    /* Typography */
-    h1 { font-family: 'Dancing Script', cursive; color: #d32f2f; font-size: 2.2rem; margin: 10px 0; }
-    p { font-size: 1.1rem; color: #555; line-height: 1.6; }
-    
-    /* The Letter Text */
-    .letter-text {
-        font-family: 'Dancing Script', cursive; 
-        font-size: 1.3rem; 
-        color: #d32f2f; 
-        text-align: left;
-        line-height: 1.5;
-        background: repeating-linear-gradient(transparent, transparent 31px, #ffcdd2 31px, #ffcdd2 32px);
-        padding: 0 10px;
-        margin-bottom: 20px;
-    }
+    h1 { font-family: 'Dancing Script', cursive; color: #8e0000; font-size: 2rem; margin: 10px 0; }
+    p { font-size: 1.1rem; color: #333; line-height: 1.6; }
 
-    /* Images */
+    .letter-text {
+        font-family: 'Dancing Script', cursive; font-size: 1.2rem; color: #8e0000;
+        text-align: left; line-height: 1.5; padding: 0 10px; margin-bottom: 20px;
+        background: repeating-linear-gradient(transparent, transparent 31px, #ffcdd2 31px, #ffcdd2 32px);
+    }
     .main-photo {
-        width: 100%; height: 280px; object-fit: cover;
-        border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        width: 100%; height: 260px; object-fit: cover;
+        border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         border-radius: 5px; margin: 15px 0; transform: rotate(-1deg);
     }
-
-    /* Buttons */
     .btn {
-        background: #d32f2f; color: white; border: none;
+        background: #8e0000; color: white; border: none;
         padding: 12px 30px; font-size: 1.1rem; border-radius: 50px;
         font-family: 'Quicksand', sans-serif; font-weight: bold; cursor: pointer;
-        margin-top: 15px; box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
-        transition: transform 0.2s;
+        margin-top: 15px; box-shadow: 0 5px 15px rgba(142, 0, 0, 0.4);
+        transition: transform 0.2s, background 0.2s;
     }
-    .btn:hover { transform: scale(1.1); background: #b71c1c; }
-
-    /* Click Hearts */
+    .btn:hover { transform: scale(1.1); background: #a00000; }
     .click-heart {
         position: fixed; font-size: 24px; pointer-events: none;
         animation: flyUp 1.5s ease-out forwards; z-index: 100;
     }
-    @keyframes flyUp {
-        to { transform: translateY(-100vh) scale(1.5) rotate(45deg); opacity: 0; }
-    }
+    @keyframes flyUp { to { transform: translateY(-100vh) scale(1.5) rotate(45deg); opacity: 0; } }
 </style>
 </head>
 <body>
@@ -153,16 +117,11 @@
 
 <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
     <div class="envelope">
-        <div class="flap left"></div>
-        <div class="flap right"></div>
-        <div class="flap bottom"></div>
-        <div class="flap top"></div>
+        <div class="flap left"></div> <div class="flap right"></div>
+        <div class="flap bottom"></div> <div class="flap top"></div>
         <div class="wax-seal">❤️</div>
         <div class="envelope-message">For You</div>
-        
         <div class="opening-card">
-            <h2 style="font-family:'Dancing Script', cursive; color:#d32f2f;">My Dearest Friend</h2>
-            <p>I have a special message for you.</p>
             <button class="btn" onclick="startGallery(event)">A little surprise for my tittu &rarr;</button>
         </div>
     </div>
@@ -190,24 +149,74 @@
     <div id="slide-3" class="slide">
         <h1>Here are the flowers for you 🌹</h1>
         <img src="bouquet.jpg" class="main-photo" alt="Red Roses">
-        <p>Sending you the biggest virtual bouquet!</p>
-        <button class="btn" onclick="nextSlide(4)">One Last Thing &rarr;</button>
+        <button class="btn" onclick="nextSlide(4)">Next &rarr;</button>
     </div>
 
     <div id="slide-4" class="slide">
         <h1>Close your eyes...</h1>
         <img src="birthday_pic.jpg" class="main-photo" alt="Make a Wish">
-        <p style="font-size: 1.3rem; color: #d32f2f;">...and make a wish! ✨</p>
-        <button class="btn" onclick="spawnClickHearts(30)">I Wished! 🎂</button>
+        <p style="color: #8e0000;">...and make a wish! ✨</p>
+        <button class="btn" onclick="nextSlide(5)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-5" class="slide">
+        <h1>2020</h1>
+        <img src="2020.jpg" class="main-photo" alt="2020">
+        <p>Your first birthday we celebrated together in 2020 ❤️</p>
+        <button class="btn" onclick="nextSlide(6)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-6" class="slide">
+        <h1>2021</h1>
+        <img src="2021.jpg" class="main-photo" alt="2021">
+        <p>Memories from 2021 ✨</p>
+        <button class="btn" onclick="nextSlide(7)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-7" class="slide">
+        <h1>2022</h1>
+        <img src="2022.jpg" class="main-photo" alt="2022">
+        <p>Memories from 2022 ✨</p>
+        <button class="btn" onclick="nextSlide(8)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-8" class="slide">
+        <h1>2023</h1>
+        <img src="2023.jpg" class="main-photo" alt="2023">
+        <p>Memories from 2023 ✨</p>
+        <button class="btn" onclick="nextSlide(9)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-9" class="slide">
+        <h1>2024</h1>
+        <img src="2024.jpg" class="main-photo" alt="2024">
+        <p>Memories from 2024 ✨</p>
+        <button class="btn" onclick="nextSlide(10)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-10" class="slide">
+        <h1>2025</h1>
+        <img src="2025.jpg" class="main-photo" alt="2025">
+        <p>Your first birthday I couldn't celebrate in person 💔</p>
+        <button class="btn" onclick="nextSlide(11)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-11" class="slide">
+        <h1>Another Year...</h1>
+        <img src="miss_you.jpg" class="main-photo" alt="Miss You">
+        <p>Another year I'm not with you. Sorry my cute darling. 🥺 The world feels a little less colorful when you aren't next to me. You are my home, and being away from you today is the hardest place to be. I miss you more than a text message could ever explain</p>
+        <button class="btn" onclick="spawnClickHearts(200)">Happy Birthday once more love❤️, you are the best!</button>
     </div>
 
 </div>
 
 <script>
-    // 1. BACKGROUND HEARTS
+    // New variable to track increasing hearts
+    let heartMultiplier = 20;
+
     function createBgHearts() {
         const container = document.getElementById('bg-hearts');
-        for(let i=0; i<20; i++){
+        for(let i=0; i<25; i++){ // Increased background hearts slightly
             const div = document.createElement('div');
             div.classList.add('bg-heart');
             div.innerHTML = '❤';
@@ -220,7 +229,6 @@
     }
     createBgHearts();
 
-    // 2. NAVIGATION LOGIC
     function openEnvelope() {
         document.getElementById('envelope').classList.add('open');
     }
@@ -229,28 +237,36 @@
         e.stopPropagation();
         document.getElementById('envelope').classList.add('hidden');
         document.getElementById('gallery').style.display = 'block';
-        spawnClickHearts(10);
+        // Initial spawn
+        spawnClickHearts(heartMultiplier);
     }
 
     function nextSlide(n) {
         document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
         document.getElementById('slide-' + n).classList.add('active');
-        spawnClickHearts(15);
+
+        // Increase the multiplier for the next click
+        heartMultiplier = heartMultiplier + 10;
+        // Cap it so it doesn't crash browser if they click too much
+        if(heartMultiplier > 150) heartMultiplier = 150;
+
+        spawnClickHearts(heartMultiplier);
     }
 
-    // 3. HEART EXPLOSION
     function spawnClickHearts(amount) {
-        const emojis = ['❤️', '💖', '🌹', '✨', '🎂'];
+        const emojis = ['❤️', '💖', '🌹', '✨', '🎂', '🥺', '😍', '🥰'];
         for (let i = 0; i < amount; i++) {
             const heart = document.createElement('div');
             heart.classList.add('click-heart');
             heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.bottom = '-50px';
-            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
-            heart.style.animationDuration = (Math.random() * 1 + 1) + 's';
+            // Randomize starting position slightly off screen bottom
+            heart.style.bottom = (Math.random() * -100 - 50) + 'px';
+            heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+            // Faster, more chaotic animation for larger amounts
+            heart.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 2000);
+            setTimeout(() => heart.remove(), 2500);
         }
     }
 </script>
