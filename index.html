@@ -9,7 +9,6 @@
     /* --- 1. DYNAMIC DARKER RED BACKGROUND --- */
     body {
         margin: 0; height: 100vh; overflow: hidden;
-        /* Deep, dark red shades */
         background: linear-gradient(-45deg, #4a0000, #8e0000, #c62828, #720026, #a00000);
         background-size: 400% 400%; animation: gradientBG 15s ease infinite;
         display: flex; justify-content: center; align-items: center;
@@ -93,12 +92,11 @@
         background: repeating-linear-gradient(transparent, transparent 31px, #ffcdd2 31px, #ffcdd2 32px);
     }
     
-    /* UPDATED IMAGE STYLE TO FIX CROPPING */
     .main-photo {
         width: 100%; 
-        height: 300px; /* Gives more room for the image */
-        object-fit: contain; /* This prevents cropping! */
-        background-color: rgba(255,255,255,0.7); /* Subtle white background for the frame */
+        height: 300px; 
+        object-fit: contain; 
+        background-color: rgba(255,255,255,0.7); 
         border: 5px solid #fff; 
         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         border-radius: 5px; 
@@ -114,11 +112,28 @@
         transition: transform 0.2s, background 0.2s;
     }
     .btn:hover { transform: scale(1.1); background: #a00000; }
+    
     .click-heart {
         position: fixed; font-size: 24px; pointer-events: none;
         animation: flyUp 1.5s ease-out forwards; z-index: 100;
     }
     @keyframes flyUp { to { transform: translateY(-100vh) scale(1.5) rotate(45deg); opacity: 0; } }
+
+    /* TIMER STYLES */
+    #timer-container {
+        font-family: 'Quicksand', sans-serif;
+        color: #8e0000;
+    }
+    #timer {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #d32f2f;
+    }
+    #locked-message {
+        font-size: 0.9rem;
+        color: #555;
+    }
 </style>
 </head>
 <body>
@@ -131,8 +146,16 @@
         <div class="flap bottom"></div> <div class="flap top"></div>
         <div class="wax-seal">❤️</div>
         <div class="envelope-message">For You</div>
+        
         <div class="opening-card">
-            <button class="btn" onclick="startGallery(event)">A little surprise for my tittu &rarr;</button>
+            
+            <div id="timer-container">
+                <div id="locked-message">Surprise unlocks in:</div>
+                <div id="timer">Loading...</div>
+            </div>
+
+            <button id="start-btn" class="btn" style="display: none;" onclick="startGallery(event)">A little surprise for my tittu &rarr;</button>
+        
         </div>
     </div>
 </div>
@@ -221,6 +244,39 @@
 </div>
 
 <script>
+    // --- TIMER LOGIC ---
+    // Set the date we're counting down to (Jan 5th, 2026 12:00 AM IST)
+    const countDownDate = new Date("Jan 5, 2026 00:00:00").getTime();
+
+    // Update the count down every 1 second
+    const x = setInterval(function() {
+
+        // Get today's date and time
+        const now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        const distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="timer"
+        document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+        // If the count down is finished, show the button and hide timer
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timer-container").style.display = "none";
+            document.getElementById("start-btn").style.display = "inline-block";
+            // Optional: Auto confetti when timer hits 0
+            spawnClickHearts(50);
+        }
+    }, 1000);
+
+    // --- EXISTING LOGIC ---
     let heartMultiplier = 20;
 
     function createBgHearts() {
