@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Indie+Flower&display=swap" rel="stylesheet">
+<style>
+    /* --- 1. DYNAMIC RED BACKGROUND --- */
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        /* Rich Red Gradient Animation */
+        background: linear-gradient(-45deg, #d32f2f, #ff6b6b, #ff8e8e, #b71c1c);
+        background-size: 400% 400%;
+        animation: gradientBG 12s ease infinite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Indie Flower', cursive;
+        position: relative;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Floating Background Hearts */
+    .bg-heart {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.15); /* Subtle white hearts */
+        animation: floatUp linear infinite;
+        z-index: 0;
+        user-select: none;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-10vh) scale(1.2) rotate(20deg); opacity: 0; }
+    }
+
+    /* --- 2. ENVELOPE STYLES --- */
+    .envelope-wrapper {
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.3s;
+        z-index: 10;
+    }
+    .envelope-wrapper:hover { transform: scale(1.02); }
+
+    .envelope {
+        width: 320px;
+        height: 220px;
+        background: #c62828; /* Darker Red to stand out */
+        position: relative;
+        border-radius: 5px;
+        /* White glow so red envelope is visible on red background */
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.4); 
+    }
+
+    /* The Flaps */
+    .flap { position: absolute; width: 0; height: 0; border-style: solid; }
+    
+    .flap.left {
+        border-width: 110px 0 110px 160px;
+        border-color: transparent transparent transparent #b71c1c;
+        top: 0; left: 0; z-index: 3;
+    }
+    .flap.right {
+        border-width: 110px 160px 110px 0;
+        border-color: transparent #b71c1c transparent transparent;
+        top: 0; right: 0; z-index: 3;
+    }
+    .flap.bottom {
+        border-width: 0 160px 120px 160px;
+        border-color: transparent transparent #d32f2f transparent;
+        bottom: 0; left: 0; z-index: 4;
+    }
+    .flap.top {
+        border-width: 130px 160px 0 160px;
+        border-color: #e53935 transparent transparent transparent;
+        top: 0; left: 0; z-index: 5;
+        transform-origin: top;
+        transition: transform 0.6s ease-in-out, z-index 0.6s;
+    }
+
+    /* Wax Seal */
+    .wax-seal {
+        position: absolute; width: 50px; height: 50px;
+        background: radial-gradient(circle, #ffd700, #b8860b);
+        border-radius: 50%; top: 90px; left: 135px; z-index: 6;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 24px; color: #966907; transition: opacity 0.4s;
+    }
+
+    /* The Letter */
+    .letter {
+        position: absolute; width: 280px; height: 300px;
+        background: #fff; top: 10px; left: 20px; z-index: 2;
+        padding: 20px; box-sizing: border-box; text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: transform 0.8s ease-in-out;
+        display: flex; flex-direction: column; justify-content: center;
+    }
+    
+    .handwriting { font-family: 'Dancing Script', cursive; color: #d32f2f; font-size: 1.6rem; }
+
+    /* Open State */
+    .envelope-wrapper.open .flap.top { transform: rotateX(180deg); z-index: 1; }
+    .envelope-wrapper.open .wax-seal { opacity: 0; }
+    .envelope-wrapper.open .letter { transform: translateY(-200px); z-index: 15; }
+    .hidden { display: none !important; }
+
+    /* --- 3. GALLERY CONTAINER --- */
+    .gallery-container {
+        display: none; width: 90%; max-width: 450px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px; border-radius: 15px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        text-align: center; border: 3px dashed #ff8a80; 
+        position: relative; z-index: 20;
+    }
+
+    .doodle-corner { position: absolute; font-size: 30px; }
+    .tl { top: -15px; left: -15px; transform: rotate(-45deg); }
+    .br { bottom: -15px; right: -15px; transform: rotate(135deg); }
+
+    .slide { display: none; animation: popIn 0.6s ease; }
+    .slide.active { display: block; }
+    
+    @keyframes popIn {
+        0% { opacity: 0; transform: scale(0.9); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* Images */
+    .main-photo {
+        width: 100%; height: 250px; object-fit: cover;
+        border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transform: rotate(-2deg); margin: 15px 0; background: #eee;
+        display: flex; align-items: center; justify-content: center; color: #888;
+    }
+
+    /* Film Strip */
+    .film-strip {
+        display: flex; gap: 5px; justify-content: center;
+        background: #222; padding: 10px 5px;
+        border-radius: 5px; margin: 15px 0;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .film-photo {
+        width: 80px; height: 80px; object-fit: cover;
+        border: 2px solid white; background: #444; opacity: 0.9;
+    }
+
+    /* Buttons */
+    .btn {
+        background: #d32f2f; color: white; border: none;
+        padding: 12px 30px; font-size: 1.1rem; border-radius: 50px;
+        font-family: 'Indie Flower', cursive; cursor: pointer;
+        margin-top: 10px; box-shadow: 0 5px 15px rgba(211, 47, 47, 0.4);
+        transition: transform 0.2s;
+    }
+    .btn:hover { transform: scale(1.1); background: #b71c1c; }
+
+    /* --- 4. CLICK HEARTS ANIMATION --- */
+    .click-heart {
+        position: fixed; font-size: 24px; pointer-events: none;
+        animation: flyUp 1.5s ease-out forwards; z-index: 100;
+    }
+    @keyframes flyUp {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-100vh) scale(1.5) rotate(45deg); opacity: 0; }
+    }
+
+</style>
+</head>
+<body>
+
+<div id="bg-hearts"></div>
+
+<div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+    <div class="envelope">
+        <div class="flap left"></div>
+        <div class="flap right"></div>
+        <div class="flap bottom"></div>
+        <div class="flap top"></div>
+        <div class="wax-seal">❤️</div>
+        
+        <div class="letter">
+            <h2 class="handwriting">My Dearest Friend,</h2>
+            <p>I can't believe it's been 5 years!</p>
+            <p>I made this little gallery to celebrate us.</p>
+            <button class="btn" onclick="startGallery(event)">Open Memories &rarr;</button>
+        </div>
+    </div>
+</div>
+
+<div class="gallery-container" id="gallery">
+    <div class="doodle-corner tl">✨</div>
+    <div class="doodle-corner br">❤️</div>
+
+    <div id="slide-1" class="slide active">
+        <h2 class="handwriting">Year 1: The Start</h2>
+        <img src="" class="main-photo" alt="Paste Year 1 Image">
+        <p>I knew we'd be friends forever.</p>
+        <button class="btn" onclick="nextSlide(2)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-2" class="slide">
+        <h2 class="handwriting">Year 2: Crazy Times</h2>
+        <img src="" class="main-photo" alt="Paste Year 2 Image">
+        <p>You always know how to make me laugh.</p>
+        <button class="btn" onclick="nextSlide(3)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-3" class="slide">
+        <h2 class="handwriting">Year 3: Unforgettable</h2>
+        <div class="film-strip">
+            <img src="" class="film-photo" alt="Img 1">
+            <img src="" class="film-photo" alt="Img 2">
+            <img src="" class="film-photo" alt="Img 3">
+        </div>
+        <p>Me + You = Best Team ❤️</p>
+        <button class="btn" onclick="nextSlide(4)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-4" class="slide">
+        <h2 class="handwriting">Year 4: Flowers for You</h2>
+        <img src="" class="main-photo" alt="Paste Year 4 Image">
+        <p>Here are some virtual flowers! 💐</p>
+        <button class="btn" onclick="nextSlide(5)">Next &rarr;</button>
+    </div>
+
+    <div id="slide-5" class="slide">
+        <h2 class="handwriting">Year 5: Today!</h2>
+        <img src="" class="main-photo" alt="Paste Year 5 Image">
+        <p>Close your eyes and make a wish! 🎂</p>
+        <button class="btn" onclick="spawnClickHearts(30)">Happy Birthday! 🎉</button>
+    </div>
+</div>
+
+<script>
+    // 1. GENERATE BACKGROUND HEARTS
+    function createBgHearts() {
+        const container = document.getElementById('bg-hearts');
+        const heartCount = 15; 
+        for(let i=0; i<heartCount; i++){
+            const div = document.createElement('div');
+            div.classList.add('bg-heart');
+            div.innerHTML = '❤';
+            div.style.left = Math.random() * 100 + 'vw';
+            div.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            div.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            div.style.animationDelay = (Math.random() * 5) + 's';
+            container.appendChild(div);
+        }
+    }
+    createBgHearts();
+
+    // 2. ENVELOPE LOGIC
+    function openEnvelope() {
+        document.getElementById('envelope').classList.add('open');
+    }
+
+    function startGallery(e) {
+        e.stopPropagation();
+        document.getElementById('envelope').classList.add('hidden');
+        document.getElementById('gallery').style.display = 'block';
+        spawnClickHearts(10);
+    }
+
+    // 3. SLIDE LOGIC
+    function nextSlide(n) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById('slide-' + n).classList.add('active');
+        spawnClickHearts(15); // Pop hearts on every click!
+    }
+
+    // 4. CLICK HEART EXPLOSION
+    function spawnClickHearts(amount) {
+        const emojis = ['❤️', '💖', '🔥', '✨', '🌹'];
+        for (let i = 0; i < amount; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('click-heart');
+            heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '-50px';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            heart.style.animationDuration = (Math.random() * 1 + 1) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+    }
+</script>
+
+</body>
+</html>
